@@ -53,6 +53,13 @@ def collate_fn(batch):
     return (torch.stack(imgs, 0), torch.from_numpy(labels), lengths)
 
 def test():
+    if torch.cuda.is_available():
+        print("CUDA is available. PyTorch is using GPU.")
+        print(f"Number of GPUs available: {torch.cuda.device_count()}")
+        print(f"Current GPU: {torch.cuda.get_device_name(torch.cuda.current_device())}")
+    else:
+        print("CUDA is not available. PyTorch is using CPU.")
+
     args = get_parser()
 
     lprnet = build_lprnet(lpr_max_len=args.lpr_max_len, phase=args.phase_train, class_num=len(CHARS), dropout_rate=args.dropout_rate)
